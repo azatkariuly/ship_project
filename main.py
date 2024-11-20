@@ -2,10 +2,19 @@ import cv2
 import numpy as np
 import pandas as pd
 from PIL import Image
+import argparse
 
 from ultralytics import YOLO
 
+parser = argparse.ArgumentParser(description='Ship Training')
+
+parser.add_argument('--video', type=str, default='./test.mp4',
+                    help='results dir')
+
+args = parser.parse_args()
 det_weight = 'best.pt'
+video_path = args.video
+print('sksmsk', video_path)
 
 class YOLOv11_Detection:
     def __init__(self, model_path, conf=0.5):
@@ -58,7 +67,7 @@ def make_stats(left_distance='undefined', right_distance='undefined'):
 model_det = YOLOv11_Detection(det_weight)
 
 # Open the video file
-video_path = 'test1.mp4'
+# video_path = 'test.mp4'
 data_path = '../2024-03-13/Laser.xlsx'
 
 cap = cv2.VideoCapture(video_path)
@@ -110,7 +119,7 @@ while cap.isOpened():
 
         #     seconds_counter += 1
 
-        frame[bg_y:bg_y + 500, bg_x:bg_x + 1500] = make_stats(left_text if left_text else None, right_text if right_text else None)
+        # frame[bg_y:bg_y + 500, bg_x:bg_x + 1500] = make_stats(left_text if left_text else None, right_text if right_text else None)
         frame = cv2.resize(frame, (720, 480))
         cv2.imshow('Frame', frame)
         # frame_filename = f"frame_5_test.jpg"
